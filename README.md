@@ -16,8 +16,8 @@ Izvorni kod aplikacije koristi standardnu strukturu Angular projekta bey `app.mo
 Prikaz svih direktorijuma:
 
 - `app` - Glavni direktorijum koji sadrži sve komponente
--`src/models` - Direktorijum u kome skladištimo definicije tipova/interfejsa potrebnih za brži razvoj aplikacije
--`src/service` - Direktorijum koji sadrži definicijeservisa neophodnih za rad aplikacije
+- `src/models` - Direktorijum u kome skladištimo definicije tipova/interfejsa potrebnih za brži razvoj aplikacije
+- `src/service` - Direktorijum koji sadrži definicijeservisa neophodnih za rad aplikacije
 
 ## Dodatne informacije
 
