@@ -1,14 +1,14 @@
 import { NgFor, NgIf } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { FlightModel } from '../../model/flight.model';
-import { PageModel } from '../../model/page.model';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import { WebService } from '../../services/web.service';
 
 @Component({
   selector: 'app-home',
@@ -28,13 +28,15 @@ import {MatSelectModule} from '@angular/material/select';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  private client: HttpClient;
-  public recommended: FlightModel[] = [];
+export class HomeComponent implements OnInit{
 
-  public destinations: string[] = [
-    'Zagreb', 'Memmingen', 'Vienna'
-  ]
+  private service: WebService
+  public recommended: FlightModel[] = [];
+  public destinations: string[] = []
+
+ // public destinations: string[] = [
+ //   'Zagreb', 'Memmingen', 'Vienna'
+ // ]
 
   public airlines: string[] = [
     'Air Serbia', 'Fly Emirates', 'Lufthansa'
@@ -44,20 +46,13 @@ export class HomeComponent {
     'First Class', 'Business', 'Economy'
   ]
 
-  constructor(private httpClient: HttpClient) {
-    this.client = httpClient;
+  constructor() {
+    this.service = new WebService()
   }
 
   ngOnInit(): void {
-    const url =
-      'https://flight.pequla.com/api/flight?page=0&size=3&type=departure&sort=scheduledAt,desc';
-    this.client
-      .get<PageModel<FlightModel>>(url, {
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-      .subscribe((rsp) => (this.recommended = rsp.content));
+    this.service.getRecommendedFlights().subscribe((rsp) => (this.recommended = rsp.content));
+    this.service.getAvailavleDestinations().subscribe(rsp => this.destinations = rsp)
   }
 
   public generateImageUrl(dest: string) {
